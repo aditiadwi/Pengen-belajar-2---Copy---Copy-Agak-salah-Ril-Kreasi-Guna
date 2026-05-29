@@ -29,11 +29,16 @@ function displayNews(articles) {
         // Fallback for missing data
         const imageUrl = article.urlToImage || 'https://via.placeholder.com/400x200?text=No+Image';
         const description = article.description ? article.description.substring(0, 100) + '...' : 'No description available.';
-        const date = new Date(article.publishedAt).toLocaleDateString();
+        const date = new Date(article.publishedAt).toLocaleDateString(undefined, { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
 
         newsHTML += `
             <article class="news-card">
-                <img src="${imageUrl}" alt="${article.title}" class="news-image">
+                <img src="${imageUrl}" alt="${article.title}" class="news-image" 
+                     onerror="this.onerror=null;this.src='https://via.placeholder.com/400x200?text=Image+Unavailable';">
                 <div class="news-body">
                     <span class="news-date">${date}</span>
                     <h3 class="news-title">${article.title}</h3>
