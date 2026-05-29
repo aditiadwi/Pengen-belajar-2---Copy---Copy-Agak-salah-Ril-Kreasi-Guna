@@ -3,19 +3,74 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News Landing Page - Test</title>
+    <title>The Perfect Brew | Traditional Coffee House</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <section class="news-section">
-        <div class="container">
-            <h2 class="section-header">Latest Global News</h2>
-            <div id="news-grid" class="news-grid">
-                <!-- News cards will be injected here -->
-                <div class="loading-state">Loading latest updates...</div>
+    <header>
+        <nav class="container">
+            <div class="logo">The Perfect Brew</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#news">News & Tips</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="home" class="hero">
+            <div class="hero-content container">
+                <h1>Perfect Brew for <br><span>Perfect Moments</span></h1>
+                <p>Experience the rich heritage and comforting aroma of artisanal coffee crafted with passion.</p>
+                <a href="#news" class="btn-primary">Explore Our World</a>
+            </div>
+        </section>
+
+        <section id="about" class="about-section container">
+            <div class="about-content">
+                <h2 class="section-header">Our Story</h2>
+                <p>Since 1992, we've been dedicated to the art of coffee. We source the finest beans from sustainable farms across the globe, roasting them in small batches to preserve their unique character and depth of flavor.</p>
+                <p>Our traditional methods meet modern precision to bring you a cup that isn't just coffee—it's an experience.</p>
+            </div>
+        </section>
+
+        <section id="news" class="news-section">
+            <div class="container">
+                <h2 class="section-header">Latest Coffee News & Brewing Tips</h2>
+                <div id="news-grid" class="news-grid">
+                    <div class="loading-state">Grinding the latest updates...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container footer-content">
+            <div class="footer-info">
+                <h3>The Perfect Brew</h3>
+                <p>123 Coffee Lane, Barista Town</p>
+                <p>Phone: (555) 123-4567</p>
+                <p>Email: hello@perfectbrew.com</p>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#">Instagram</a>
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                </div>
             </div>
         </div>
-    </section>
+        <div class="footer-bottom">
+            <p>&copy; 2024 The Perfect Brew. All rights reserved.</p>
+        </div>
+    </footer>
+
     <script src="app.js"></script>
 </body>
 </html>
