@@ -1,0 +1,5 @@
+# IDE and System files
+.vscode/
+.DS_Store
+node_modules/
+*.log
