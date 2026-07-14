@@ -609,22 +609,29 @@ async function renderStandAnnouncement() {
     const banner = document.getElementById('stand-announcement');
     if (!banner || !supabaseClient) return;
 
-    const { data, error } = await supabaseClient
-        .from('events')
-        .select('*')
-        .eq('is_active', true)
-        .single();
+    try {
+        const { data, error } = await supabaseClient
+            .from('events')
+            .select('*')
+            .eq('is_active', true)
+            .maybeSingle();
+        
+        if (error) {
+            console.error("Error fetching stand announcement:", error);
+            banner.classList.add('hidden');
+            return;
+        }
 
-    if (error || !data) {
+        if (data) {
+            banner.classList.remove('hidden');
+            document.getElementById('announce-text').innerHTML = `We're at <strong>${data.location}</strong> today! Come visit our stand.`;
+        } else {
+            banner.classList.add('hidden');
+        }
+    } catch (e) {
+        console.error("Failed to fetch stand announcement (network block):", e);
         banner.classList.add('hidden');
-        return;
     }
-
-    banner.classList.remove('hidden');
-    document.getElementById('announce-text').innerHTML = `We're at <strong>${data.location}</strong> today! (${data.event_date})`;
-    
-    const items = data.items_available ? data.items_available.split(', ') : [];
-    document.getElementById('announce-items').innerHTML = items.map(i => `<span class="announce-item-tag">${i}</span>`).join('');
 }
 
 /** 3. ADMIN & INVENTORY (Legacy Support) */
