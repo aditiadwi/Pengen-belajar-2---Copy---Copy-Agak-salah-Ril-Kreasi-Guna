@@ -61,6 +61,7 @@
                         <h4 style="margin-top: 0; margin-bottom: 15px; color: var(--wood-warm); border-bottom: 1px solid #eee; padding-bottom: 10px;">👤 Recipient Info</h4>
                         <p style="margin: 5px 0;"><strong>Name:</strong> <span id="res-name">-</span></p>
                         <p style="margin: 5px 0;"><strong>Phone:</strong> <span id="res-phone">-</span></p>
+                        <p style="margin: 5px 0;"><strong>Email:</strong> <span id="res-email">-</span></p>
                         <p style="margin: 5px 0;"><strong>Address:</strong> <br><span id="res-address" style="font-size: 0.9rem; color: #555;">-</span></p>
                     </div>
 
@@ -141,6 +142,7 @@
                 document.getElementById('res-id').innerText = data.order_id;
                 document.getElementById('res-name').innerText = data.customer_name;
                 document.getElementById('res-phone').innerText = data.customer_phone || '-';
+                document.getElementById('res-email').innerText = data.customer_email || '-';
                 document.getElementById('res-address').innerText = data.address;
                 document.getElementById('res-total').innerText = data.total_amount;
                 document.getElementById('res-method').innerText = `${data.payment_method} (${data.delivery_method})`;
