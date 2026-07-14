@@ -60,15 +60,20 @@ async function fetchProducts() {
         console.error("Supabase client not initialized!");
         return [];
     }
-    const { data, error } = await supabaseClient.from('products').select('*');
-    if (error) {
-        console.error("Error fetching products:", error);
+    try {
+        const { data, error } = await supabaseClient.from('products').select('*');
+        if (error) {
+            console.error("Error fetching products:", error);
+            return [];
+        }
+        if (data) {
+            console.log("Successfully fetched products:", data.length);
+            DYNAMIC_PRODUCTS = data;
+            return data;
+        }
+    } catch (e) {
+        console.error("Failed to fetch products from Supabase (network or CORS block):", e);
         return [];
-    }
-    if (data) {
-        console.log("Successfully fetched products:", data.length);
-        DYNAMIC_PRODUCTS = data;
-        return data;
     }
     return [];
 }
