@@ -48,6 +48,9 @@ function clearFormData() {
 }
 
 async function fetchProducts() {
+    if (DYNAMIC_PRODUCTS && DYNAMIC_PRODUCTS.length > 0) {
+        return DYNAMIC_PRODUCTS;
+    }
     console.log("Fetching products from Supabase...");
     if (!supabaseClient) {
         console.error("Supabase client not initialized!");
@@ -1445,11 +1448,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Only fetch products on pages that actually need them
     const needsProducts = ['index.html', '', 'products.html', 'admin.html', 'checkout.html'].includes(page);
     if (needsProducts && supabaseClient) {
-        await fetchProducts();
+        fetchProducts().then(() => {
+            if (page === 'index.html' || page === '') {
+                if (supabaseClient) renderFeaturedProducts();
+            }
+        });
     }
 
     if (page === 'index.html' || page === '') { 
-        if (supabaseClient) renderFeaturedProducts(); 
         renderStandAnnouncement(); 
     }
     else if (page === 'track.html') {
