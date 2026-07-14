@@ -1471,22 +1471,25 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     const path = window.location.pathname;
-    const page = path.split("/").pop();
+    let page = path.split("/").pop();
+    if (page.endsWith('.html')) {
+        page = page.slice(0, -5);
+    }
 
     // Only fetch products on pages that actually need them
-    const needsProducts = ['index.html', '', 'products.html', 'admin.html', 'checkout.html'].includes(page);
+    const needsProducts = ['index', '', 'products', 'admin', 'checkout'].includes(page);
     if (needsProducts && supabaseClient) {
         fetchProducts().then(() => {
-            if (page === 'index.html' || page === '') {
+            if (page === 'index' || page === '') {
                 if (supabaseClient) renderFeaturedProducts();
             }
         });
     }
 
-    if (page === 'index.html' || page === '') { 
+    if (page === 'index' || page === '') { 
         renderStandAnnouncement(); 
     }
-    else if (page === 'track.html') {
+    else if (page === 'track') {
         if (typeof window.renderRecentOrdersTrack === 'function') {
             window.renderRecentOrdersTrack();
         }
@@ -1500,8 +1503,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
     }
-    else if (page === 'products.html') { initShop(); renderCart(); }
-    else if (page === 'checkout.html') { 
+    else if (page === 'products') { initShop(); renderCart(); }
+    else if (page === 'checkout') { 
         renderCheckoutProductsList();
         loadFormData();
         window.handleShippingUpdate();
@@ -1535,9 +1538,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         document.getElementById('payment-method')?.addEventListener('change', window.updatePaymentDisplay);
     }
-    else if (page === 'about.html') { renderTestimonials(); }
-    else if (page === 'brew.html') { getCoffeeNews(); initStars(); }
-    else if (page === 'contact.html') {
+    else if (page === 'about') { renderTestimonials(); }
+    else if (page === 'brew') { getCoffeeNews(); initStars(); }
+    else if (page === 'contact') {
         // Inisialisasi EmailJS jika ada
         if (typeof emailjs !== 'undefined') {
             emailjs.init({
