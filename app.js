@@ -123,6 +123,31 @@ if (supabaseClient) {
     });
 }
 
+// Check and handle OAuth errors in URL query parameters
+if (typeof window !== 'undefined') {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('error') || urlParams.has('error_description')) {
+        const errorDesc = urlParams.get('error_description') || urlParams.get('error') || '';
+        const errorCode = urlParams.get('error_code') || '';
+        
+        console.error("Supabase OAuth Error:", { errorCode, errorDesc });
+        
+        // Show user-friendly alert
+        let displayMessage = "Login gagal. Silakan coba lagi.";
+        if (errorCode === 'bad_oauth_state' || errorDesc.toLowerCase().includes('state')) {
+            displayMessage = "Login gagal: Sesi login kedaluwarsa atau terdeteksi masalah keamanan (OAuth state tidak cocok). \n\nTips: Pastikan URL browser Anda sama saat memulai login (gunakan http://localhost:3000 atau domain yang sama dengan redirect).";
+        } else if (errorDesc) {
+            displayMessage = `Login gagal: ${decodeURIComponent(errorDesc.replace(/\+/g, ' '))}`;
+        }
+        
+        alert(displayMessage);
+        
+        // Clean URL parameters without reloading
+        const cleanUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+    }
+}
+
 // Click outside dropdown to close it
 document.addEventListener('click', (e) => {
     const dropdown = document.getElementById('user-dropdown');
