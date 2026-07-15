@@ -349,12 +349,20 @@
             }
             
             const { data: { session } } = await adminSupabase.auth.getSession();
-            const isLoggedIn = session !== null;
             
-            document.getElementById('admin-login-screen').classList.toggle('hidden', isLoggedIn);
-            document.getElementById('admin-dashboard').classList.toggle('hidden', !isLoggedIn);
+            // User is admin if they are logged in AND:
+            // 1. Their email is the registered admin email: kreasiguna2026@gmail.com
+            // 2. Or they signed in via email/password provider (which only the admin does)
+            const isAdmin = session !== null && (
+                session.user.email === 'kreasiguna2026@gmail.com' || 
+                (session.user.app_metadata && session.user.app_metadata.provider === 'email') ||
+                (session.user.app_metadata && session.user.app_metadata.providers && session.user.app_metadata.providers.includes('email'))
+            );
             
-            if (isLoggedIn) {
+            document.getElementById('admin-login-screen').classList.toggle('hidden', isAdmin);
+            document.getElementById('admin-dashboard').classList.toggle('hidden', !isAdmin);
+            
+            if (isAdmin) {
                 showSection('stats');
             }
         }
@@ -423,6 +431,10 @@
 
         async function loadProducts() {
             const { data } = await adminSupabase.from('products').select('*').order('created_at', {ascending:false});
+            if (!data) {
+                document.getElementById('admin-products-table').innerHTML = '<tr><td colspan="5" style="text-align:center; color:#888;">Gagal memuat produk / Akses ditolak</td></tr>';
+                return;
+            }
             document.getElementById('admin-products-table').innerHTML = data.map(p => {
                 const out = p.stock <= 0;
                 return `<tr><td><span class="status-badge" style="background:${out?'#e74c3c':'#2ecc71'}">${out?'SOLD OUT':'AVAILABLE'}</span></td>
@@ -456,6 +468,10 @@
 
         async function loadEvents() {
             const { data } = await adminSupabase.from('events').select('*').order('created_at', {ascending:false});
+            if (!data) {
+                document.getElementById('admin-events-table').innerHTML = '<tr><td colspan="4" style="text-align:center; color:#888;">Gagal memuat event / Akses ditolak</td></tr>';
+                return;
+            }
             document.getElementById('admin-events-table').innerHTML = data.map(e => `
                 <tr><td><span class="status-badge" style="background:${e.is_active?'#2ecc71':'#eee'};color:${e.is_active?'white':'#666'}">${e.is_active?'ACTIVE':'OFF'}</span></td>
                 <td>${e.location}</td><td>${e.event_date}</td><td>
@@ -476,6 +492,10 @@
 
         async function loadFeedback() {
             const { data } = await adminSupabase.from('feedback').select('*').order('created_at',{ascending:false});
+            if (!data) {
+                document.getElementById('admin-feedback-table').innerHTML = '<tr><td colspan="6" style="text-align:center; color:#888;">Gagal memuat feedback / Akses ditolak</td></tr>';
+                return;
+            }
             document.getElementById('admin-feedback-table').innerHTML = data.map(f => `
                 <tr><td>${new Date(f.created_at).toLocaleDateString()}</td><td>${f.customer_name}</td><td>${'★'.repeat(f.rating)}</td><td>${f.message}</td>
                 <td><span class="status-badge" style="background:${f.is_approved?'#55efc4':'#ffeaa7'}">${f.is_approved?'LIVE':'HIDDEN'}</span></td>
