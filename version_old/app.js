@@ -352,7 +352,7 @@ function renderStandAnnouncement() {
 }
 
 /** 3. ADMIN & INVENTORY */
-window.loginAdmin = () => { if (prompt("Admin Password:") === '[REDACTED_ADMIN_PASSWORD]') { localStorage.setItem('isAdmin', 'true'); toggleAdminUI(true); } };
+window.loginAdmin = () => { if (prompt("Admin Password:") === (window.ENV?.LEGACY_ADMIN_PASSWORD || '[REDACTED_ADMIN_PASSWORD]')) { localStorage.setItem('isAdmin', 'true'); toggleAdminUI(true); } };
 window.logoutAdmin = () => { localStorage.removeItem('isAdmin'); toggleAdminUI(false); };
 
 function toggleAdminUI(isAdmin) {

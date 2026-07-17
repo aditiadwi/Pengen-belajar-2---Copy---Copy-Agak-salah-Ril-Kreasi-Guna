@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="env.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout | KG — Smart Drip Coffee</title>
@@ -13,7 +14,7 @@
     <script type="text/javascript">
         (function() {
             emailjs.init({
-              publicKey: "[REDACTED_EMAILJS_PUBLIC_KEY]",
+              publicKey: window.ENV?.EMAILJS_PUBLIC_KEY || "[REDACTED_EMAILJS_PUBLIC_KEY]",
             });
         })();
     </script>

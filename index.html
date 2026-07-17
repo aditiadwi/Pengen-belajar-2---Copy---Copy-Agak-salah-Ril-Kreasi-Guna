@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="env.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Drip Coffee | KG — Kreasi Guna</title>
@@ -12,9 +13,8 @@
     <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script type="text/javascript">
         (function() {
-            // NOTE: The user will need to replace this with their actual Public Key from EmailJS
             emailjs.init({
-              publicKey: "[REDACTED_EMAILJS_PUBLIC_KEY]",
+              publicKey: window.ENV?.EMAILJS_PUBLIC_KEY || "[REDACTED_EMAILJS_PUBLIC_KEY]",
             });
         })();
     </script>

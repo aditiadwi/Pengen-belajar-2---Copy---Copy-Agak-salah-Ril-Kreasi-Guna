@@ -1,8 +1,8 @@
-const API_KEY = '[REDACTED_NEWSAPI_KEY]';
+const API_KEY = window.ENV?.NEWS_API_KEY || '[REDACTED_NEWSAPI_KEY]';
 
 // SUPABASE CONFIGURATION
-const SUPABASE_URL = 'https://cdlirubbmeayfwklnnyu.supabase.co';
-const SUPABASE_ANON_KEY = '[REDACTED_SUPABASE_ANON_KEY]';
+const SUPABASE_URL = window.ENV?.SUPABASE_URL || 'https://cdlirubbmeayfwklnnyu.supabase.co';
+const SUPABASE_ANON_KEY = window.ENV?.SUPABASE_ANON_KEY || '[REDACTED_SUPABASE_ANON_KEY]';
 let supabaseClient = null;
 if (typeof supabase !== 'undefined') {
     supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -1809,7 +1809,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // Inisialisasi EmailJS jika ada
         if (typeof emailjs !== 'undefined') {
             emailjs.init({
-                publicKey: "[REDACTED_EMAILJS_PUBLIC_KEY]"
+                publicKey: window.ENV?.EMAILJS_PUBLIC_KEY || "[REDACTED_EMAILJS_PUBLIC_KEY]"
             });
         }
 

@@ -1,10 +1,33 @@
+const fs = require('fs');
+const path = require('path');
 const cloudinary = require('cloudinary').v2;
+
+// Simple zero-dependency helper to load .env file
+function loadEnv() {
+  const envPath = path.resolve(__dirname, '.env');
+  if (!fs.existsSync(envPath)) return;
+  const lines = fs.readFileSync(envPath, 'utf8').split('\n');
+  lines.forEach(line => {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) return;
+    const parts = trimmed.split('=');
+    if (parts.length >= 2) {
+      const key = parts[0].trim();
+      let value = parts.slice(1).join('=').trim();
+      if ((value.startsWith('"') && value.endsWith('"')) || (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+      }
+      process.env[key] = value;
+    }
+  });
+}
+loadEnv();
 
 // 1. Configure Cloudinary
 cloudinary.config({
-  cloud_name: 'dzwv7azwx',
-  api_key: '[REDACTED_CLOUDINARY_KEY]',
-  api_secret: '[REDACTED_CLOUDINARY_SECRET]'
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
 
 async function runTest() {
