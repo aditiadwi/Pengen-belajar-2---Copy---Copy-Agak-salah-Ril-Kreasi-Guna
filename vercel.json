@@ -1,4 +1,7 @@
 {
   "version": 2,
-  "cleanUrls": true
+  "cleanUrls": true,
+  "framework": null,
+  "buildCommand": "node generate-env-js.js",
+  "outputDirectory": "."
 }
