@@ -61,10 +61,12 @@ Membangun platform e-commerce kopi premium (Smart Drip Coffee) yang mengintegras
 | **Contact Form split Email/WhatsApp** | Kebutuhan untuk memproses pesan formulir kontak lewat EmailJS (masuk ke kotak masuk email) sambil menyediakan opsi obrolan cepat langsung ke WhatsApp. | Memisahkan form kontak menjadi dua opsi tombol: Tombol Submit (`✉️ Kirim ke Email`) yang memicu pengiriman data via EmailJS, dan Tombol Shortcut (`💬 Hubungi via WhatsApp`) yang memvalidasi form lalu menyusun pesan teks terformat ke API WhatsApp. |
 | **WhatsApp SVG Logo Accuracy** | Ikon WA sebelumnya adalah siluet putih dasar yang rentan terpotong oleh CSS `overflow: hidden` di beberapa browser dan kurang menyerupai logo resmi WhatsApp. | Mengganti SVG siluet dengan SVG resmi WhatsApp bertumpuk 2-lapisan (balon chat whites + lingkaran hijau & telepon cut-out), serta membersihkan batasan overflow pada CSS untuk rendering yang 100% presisi. |
 | **Account Session Cart, Profile & Order History Isolation** | Menggunakan kunci global (`coffee_cart`, `checkout_form_data`, `customer_profile`, dan `recent_orders`) di `localStorage` membuat data keranjang, autofill alamat, dan riwayat pelacakan pesanan milik pengguna sebelumnya bocor ke pengguna lain yang login di browser/perangkat yang sama. | Mengubah seluruh kunci tersebut menjadi dinamis berdasarkan ID sesi aktif Supabase (`*_userId`). Ketika user melakukan login/logout atau ganti akun, sistem secara otomatis memuat ulang keranjang belanja, memperbarui profil autofill, dan menampilkan daftar nomor pelacakan pesanan (`recent_orders`) yang sesuai secara terisolasi. Selain itu, saat melakukan logoff (logout), seluruh data guest akan dihapus bersih (reset) agar sesi guest berikutnya dimulai dengan form & keranjang kosong tanpa sisa data akun sebelumnya. |
+| **Hardcoded Credentials & Sensitive Data Exposure** | Kunci API (Supabase, NewsAPI, EmailJS) dan Cloudinary API Secret disimpan secara mentah/hardcoded di client-side JS dan file testing, yang berisiko bocor saat dipublikasikan ke Git. | Memigrasikan semua data sensitif ke `.env` file yang di-gitignored. Membuat utilitas `generate-env-js.js` untuk membuat config client-safe (`env.js`) secara lokal, menginjeksikannya ke `<head>` semua HTML, serta merestrukturisasi client-side JS agar mengambil nilai dari `window.ENV` dengan sistem *fallback* yang aman. |
 
 ---
 
 ### **5. Kesimpulan & Status Proyek**
 Sistem **Smart Drip V2** saat ini dalam status **Stable**. Arsitektur telah siap untuk menangani trafik nyata dengan manajemen data yang terpusat dan aman di cloud.
 
-*Update Terakhir: 13 Juli 2026*
+*Update Terakhir: 17 Juli 2026*
+
