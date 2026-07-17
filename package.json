@@ -1,0 +1,11 @@
+{
+  "name": "kreasi-guna-v2",
+  "version": "1.0.2",
+  "description": "Smart Drip Coffee V2",
+  "main": "app.js",
+  "scripts": {
+    "build": "node generate-env-js.js"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
